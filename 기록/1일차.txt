@@ -6,3 +6,16 @@ C++로 만든건 언리얼 다끄고 언리얼 프로젝트/소스 파일 안에
 우클릭 누르고 제너레이트 비주얼 스튜디오 파일 한번 해줘야함 
 
 언리얼에서 실행해도 되지만 비주얼 스튜디오에 로컬빌드 디버거 (그냥 실행 버튼)눌러도 됨
+
+	//CreateDefaultSubobject
+	//Create : 만들다
+	//Default : 기본
+	//Sub : 아래의
+	//Object : 객체
+
+	//ConstructorHelpers
+	//Constructor : 생성하는, 해주는, 생성자
+	//Helpers : 도움을 주는 애들
+	//FObjectFinder
+	//Object : 객체
+	//Finder : 찾는 아이
