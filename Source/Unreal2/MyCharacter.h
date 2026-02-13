@@ -17,7 +17,7 @@ private:
 	class UCameraComponent* Camera;
 private:
 	UPROPERTY(VisibleAnywhere)
-	class UAnimInstance* AnimInstance;
+	class UMyAnimInstance* AnimInstance;
 
 public:
 	AMyCharacter();
@@ -32,4 +32,7 @@ public:
 public:
 	void KeyUpDown(float value);
 	void KeyLeftRight(float value);
+public:
+	void KeyAttack();
+
 };

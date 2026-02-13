@@ -20,13 +20,23 @@ private:
 	float Horizontal;
 	UPROPERTY(Category = "Ani", EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
 	float Vertical;
+	UPROPERTY(Category = "Ani", EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	FVector Velocity;
+	UPROPERTY(Category = "Ani", EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	bool IsFalling;
 
 public:
 	UPROPERTY(VisibleAnywhere)
 	class ACharacter* Character;
 	UPROPERTY(VisibleAnywhere)
 	class UCharacterMovementComponent* CharacterMovement;
+	UPROPERTY(VisibleAnywhere)
+	UAnimMontage* AttackMontage;
+	public:
+	UMyAnimInstance();
 public:
 	virtual void NativeBeginPlay() override;
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
+public:
+	void PlayAttackMontage();
 };
