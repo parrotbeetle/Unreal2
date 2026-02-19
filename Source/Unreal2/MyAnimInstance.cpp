@@ -2,8 +2,9 @@
 
 
 #include "MyAnimInstance.h"
-#include "GameFramework/Character.h"
+//#include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
+#include "MyCharacter.h"
 
 UMyAnimInstance::UMyAnimInstance()
 {
@@ -24,7 +25,7 @@ void UMyAnimInstance::NativeBeginPlay()
 
 	if (IsValid(Pawn))
 	{
-		Character = Cast<ACharacter>(Pawn);
+		Character = Cast<AMyCharacter>(Pawn);
 
 		if (IsValid(Character))
 		{
@@ -65,6 +66,13 @@ void UMyAnimInstance::PlayAttackMontage()
 		if (!Montage_IsPlaying(AttackMontage))
 		{
 			Montage_Play(AttackMontage);
+
+			Character->PlayerAttack();
 		}
 	}
+}
+
+void UMyAnimInstance::AnimNotify_Hit()
+{
+	UE_LOG(LogTemp, Log, TEXT("Attack Hit"));
 }

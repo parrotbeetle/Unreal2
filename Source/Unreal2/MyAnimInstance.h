@@ -27,7 +27,7 @@ private:
 
 public:
 	UPROPERTY(VisibleAnywhere)
-	class ACharacter* Character;
+	class AMyCharacter* Character;
 	UPROPERTY(VisibleAnywhere)
 	class UCharacterMovementComponent* CharacterMovement;
 	UPROPERTY(VisibleAnywhere)
@@ -39,4 +39,7 @@ public:
 	virtual void NativeUpdateAnimation(float DeltaSeconds) override;
 public:
 	void PlayAttackMontage();
+public:
+	UFUNCTION()
+	void AnimNotify_Hit();
 };
