@@ -2,6 +2,7 @@
 #include "GameFramework/SpringArmComponent.h"
 #include "Camera/CameraComponent.h"
 #include "MyAnimInstance.h"
+#include "Kismet/GameplayStatics.h"
 
 AMyCharacter::AMyCharacter()
 {
@@ -92,25 +93,55 @@ void AMyCharacter::PlayerAttack()
 	FCollisionQueryParams Params(NAME_None, false, this);
 
 	float AttackRange = 100.f;
-	float AttackRadius = 50.f;
+	float AttackRadius = 40.f; //캡슐의 반지름
+	float AttackHalfHeight = 90.f; // 캡슐의 전체 절반 높이
 	FVector StartPos = GetActorLocation();
 	FVector EndPos = GetActorLocation() + GetActorForwardVector() * AttackRange;
 
 
 	bool Result = GetWorld()->SweepSingleByChannel
 	(
-		OUT HitResult,								//충돌 결과를 저장하는 변수
-		StartPos,									//시작 지점
-		EndPos,										//끝 지점
-		FQuat::Identity,							//회전 (기본값)
-		//ECC_Visibility,							//충돌 채널(Visibility)
-		ECC_Visibility,								//Attack
-		FCollisionShape::MakeSphere(AttackRange),	//형태 : Sphere(구) => MakeSphere(반지름)
-		Params										//충돌 쿼리 파라미터들.
+		OUT HitResult,													//충돌 결과를 저장하는 변수
+		StartPos,														//시작 지점
+		EndPos,															//끝 지점
+		FQuat::Identity,												//회전 (기본값)
+		//ECC_Visibility,												//충돌 채널(Visibility)
+		ECC_GameTraceChannel1,											//Attack
+		FCollisionShape::MakeCapsule(AttackRadius, AttackHalfHeight),	//형태 : Sphere(구) => MakeSphere(반지름) => Capsule(캡슐) 
+		Params															//충돌 쿼리 파라미터들.
 	);
 
-	if (Result)
+	FVector Vec = GetActorForwardVector() * AttackRange;
+
+	//Fvector Center = StartPos + (EndPos - StartPos) * 0.5f;
+	FVector Center = StartPos + Vec * 0.5f;
+
+	//공격 회전값
+	FQuat AttackRotation = FRotationMatrix::MakeFromZ(GetActorForwardVector()).ToQuat();
+
+	//Result == true  -> DebugColor = FColor::Green;
+	//Result == false -> DebugColor = FColor::Red;
+	FColor DebugColor = Result ? FColor::Green : FColor::Red;
+
+	DrawDebugCapsule
+	(
+		GetWorld(),			//World값
+		Center,			//중앙위치
+		AttackHalfHeight,	//캡슐 전체높이의 절반
+		AttackRadius,		//캡슐의 반지름
+		AttackRotation,		//캡슐의 회전값
+		DebugColor,			//색깔
+		false,				//지속여부
+		2.0f				//지속시간
+
+
+	);
+
+	if (Result && HitResult.GetActor())
 	{
-		UE_LOG(LogTemp, Log, TEXT("HIT"));
+		//AActor* Target = HitResult.GetActor(); 
+		auto Target = HitResult.GetActor();
+
+		UGameplayStatics::ApplyDamage(Target, 10.f, nullptr, this, NULL);
 	}
 }
