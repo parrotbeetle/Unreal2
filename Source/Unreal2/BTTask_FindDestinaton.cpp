@@ -5,7 +5,7 @@
 
 UBTTask_FindDestinaton::UBTTask_FindDestinaton()
 {
-	NodeName = TEXT("Find Patrol Destination");
+    NodeName = TEXT("Find Patrol Destination");
 }
 
 EBTNodeResult::Type UBTTask_FindDestinaton::ExecuteTask(UBehaviorTreeComponent& OwnerComp, uint8* NodeMemory)

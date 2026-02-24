@@ -23,7 +23,7 @@ void AEnemyAIController::OnPossess(APawn* InPawn)
 	Super::OnPossess(InPawn);
 	if (RunBehaviorTree(BehaviorTree))
 	{
-		UE_LOG(LogTemp, Log, TEXT("Run Behavior Tree"));
+		
 	}
 }
 

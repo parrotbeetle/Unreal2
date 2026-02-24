@@ -32,7 +32,7 @@ public:
 	class UCharacterMovementComponent* CharacterMovement;
 	UPROPERTY(VisibleAnywhere)
 	UAnimMontage* AttackMontage;
-	public:
+public:
 	UMyAnimInstance();
 public:
 	virtual void NativeBeginPlay() override;

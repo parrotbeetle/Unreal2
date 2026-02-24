@@ -1,5 +1,6 @@
 #include "Enemy.h"
 #include "EnemyAIController.h"
+#include "EnemyAnimInstance.h"
 
 AEnemy::AEnemy()
 {
@@ -45,5 +46,14 @@ float AEnemy::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AControl
 {
 	UE_LOG(LogTemp, Log, TEXT("Damaged : $f"), Damage);
 	return 0.0f;
+}
+
+void AEnemy::EnemyAttack()
+{
+	auto EnemyAnimInstance = Cast<UEnemyAnimInstance>(GetMesh()->GetAnimInstance());
+	if (IsValid(EnemyAnimInstance))
+	{
+		EnemyAnimInstance->PlayAttackMontage();
+	}
 }
 

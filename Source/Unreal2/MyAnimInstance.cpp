@@ -74,5 +74,5 @@ void UMyAnimInstance::PlayAttackMontage()
 
 void UMyAnimInstance::AnimNotify_Hit()
 {
-	UE_LOG(LogTemp, Log, TEXT("Attack Hit"));
+	Character->PlayerAttack();
 }
