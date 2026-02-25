@@ -10,7 +10,20 @@ UCLASS()
 class UNREAL2_API AEnemy : public ACharacter
 {
 	GENERATED_BODY()
-
+private:
+	UPROPERTY(VisibleAnywhere)
+	float MaxHp;
+	UPROPERTY(VisibleAnywhere)
+	float Hp;
+private:
+	UPROPERTY(VisibleAnywhere)
+	class UEnemyAnimInstance* EnemyAnimInstance;
+	UPROPERTY(VisibleAnywhere)
+	class UWidgetComponent* HpBar;
+private:
+	bool isAttacking = false;
+public:
+	bool IsAttacking() const { return isAttacking; }
 public:
 	// Sets default values for this character's properties
 	AEnemy();
@@ -30,4 +43,7 @@ public:
 	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
 public:
 	void EnemyAttack();
+public:
+	UFUNCTION()
+	void OnAttackMontageEnded(UAnimMontage* Montage, bool bInterupted);
 };

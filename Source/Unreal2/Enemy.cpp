@@ -1,7 +1,8 @@
 #include "Enemy.h"
 #include "EnemyAIController.h"
 #include "EnemyAnimInstance.h"
-
+#include "Components/WidgetComponent.h"
+#include "HpUserWidget.h"
 AEnemy::AEnemy()
 {
 	PrimaryActorTick.bCanEverTick = true;
@@ -20,12 +21,30 @@ AEnemy::AEnemy()
 		GetMesh()->SetAnimClass(AI.Class);
 	}
 	AIControllerClass = AEnemyAIController::StaticClass();
+
+	AIControllerClass = AEnemyAIController::StaticClass();
+
+	HpBar = CreateDefaultSubobject<UWidgetComponent>(TEXT("HpBar"));
+	HpBar->SetupAttachment(GetRootComponent());
+	HpBar->SetRelativeLocation(FVector(0.f, 0.f, 130.f));
+	HpBar->SetWidgetSpace(EWidgetSpace::Screen);
+	HpBar->SetDrawSize(FVector2D(200.f, 20.f));
+	static ConstructorHelpers::FClassFinder<UHpUserWidget> UW(TEXT("/Game/UI/WBP_HpBar.WBP_HpBar_C"));
+	if (UW.Succeeded())
+	{
+		HpBar->SetWidgetClass(UW.Class);
+	}
+	MaxHp = 100.f;
 }
+
 
 void AEnemy::BeginPlay()
 {
 	Super::BeginPlay();
-	
+	EnemyAnimInstance = Cast<UEnemyAnimInstance>(GetMesh()->GetAnimInstance());
+	EnemyAnimInstance->OnMontageEnded.AddDynamic(this, &AEnemy::OnAttackMontageEnded);
+
+	Hp = MaxHp;
 }
 
 // Called every frame
@@ -44,16 +63,35 @@ void AEnemy::SetupPlayerInputComponent(UInputComponent* PlayerInputComponent)
 
 float AEnemy::TakeDamage(float Damage, FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser)
 {
-	UE_LOG(LogTemp, Log, TEXT("Damaged : $f"), Damage);
+	Hp -= Damage;
+
+	if (Hp <= 0)
+	{
+		float currentHP = Hp / MaxHp;
+		UE_LOG(LogTemp, Log, TEXT("Damaged : %f"), currentHP);
+
+	}
+	else
+	{
+		UE_LOG(LogTemp, Log, TEXT("Damaged : %f"), 0.f);
+	}
+
 	return 0.0f;
 }
 
 void AEnemy::EnemyAttack()
 {
-	auto EnemyAnimInstance = Cast<UEnemyAnimInstance>(GetMesh()->GetAnimInstance());
 	if (IsValid(EnemyAnimInstance))
 	{
-		EnemyAnimInstance->PlayAttackMontage();
+		if (!isAttacking)
+		{
+			EnemyAnimInstance->PlayAttackMontage();
+			isAttacking = true;
+		}
 	}
 }
 
+void AEnemy::OnAttackMontageEnded(UAnimMontage* Montage, bool bInterupted)
+{
+	isAttacking = false;
+}
