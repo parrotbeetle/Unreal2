@@ -8,7 +8,7 @@
 
 UMyAnimInstance::UMyAnimInstance()
 {
-	static ConstructorHelpers::FObjectFinder<UAnimMontage> AM(TEXT("/Script/Engine.AnimMontage'/Game/ParagonGreystone/Characters/Heroes/Greystone/Animations/Attack_PrimaryB_Montage.Attack_PrimaryB_Montage'"));
+	static ConstructorHelpers::FObjectFinder<UAnimMontage> AM(TEXT("/Game/ParagonSparrow/Characters/Heroes/Sparrow/Animations/Primary_Fire_Med_Montage.Primary_Fire_Med_Montage"));
 
 	if (AM.Succeeded())
 	{
