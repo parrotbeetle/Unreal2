@@ -3,6 +3,7 @@
 
 #include "MyGameModeBase.h"
 #include "GameFramework/Character.h"
+#include "MyPlayerController.h"
 
 AMyGameModeBase::AMyGameModeBase()
 {
@@ -12,5 +13,13 @@ AMyGameModeBase::AMyGameModeBase()
 	{
 		DefaultPawnClass = BP_Character.Class;
 	}
-	
+
+	PlayerControllerClass = AMyPlayerController::StaticClass();
+
+	static ConstructorHelpers::FClassFinder<APlayerController> BP_PlayerController(TEXT("/Script/Engine.Blueprint'/Game/Blueprints/BP_MyPlayerController.BP_MyPlayerController_C'"));
+
+	if (BP_PlayerController.Succeeded())
+	{
+		PlayerControllerClass = BP_PlayerController.Class;
+	}
 }

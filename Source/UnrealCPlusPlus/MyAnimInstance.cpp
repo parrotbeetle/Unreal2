@@ -4,7 +4,8 @@
 #include "MyAnimInstance.h"
 //#include "GameFramework/Character.h"
 #include "GameFramework/CharacterMovementComponent.h"
-#include "MyCharacter.h"
+#include "MyPlayer.h"
+#include "Kismet/KismetMathLibrary.h"
 
 UMyAnimInstance::UMyAnimInstance()
 {
@@ -24,7 +25,7 @@ void UMyAnimInstance::NativeBeginPlay()
 
 	if (IsValid(Pawn))
 	{
-		Character = Cast<AMyCharacter>(Pawn);
+		Character = Cast<AMyPlayer>(Pawn);
 
 		if (IsValid(Character))
 		{
@@ -54,6 +55,14 @@ void UMyAnimInstance::NativeUpdateAnimation(float DeltaSeconds)
 
 		IsFalling = CharacterMovement->IsFalling();
 
+		AimRotation = Character->GetBaseAimRotation();
+
+		FRotator RotFromX = UKismetMathLibrary::MakeRotFromX(Velocity);
+
+		FRotator DeltaRotation = RotFromX - AimRotation;
+		DeltaRotation.Normalize();
+
+		YawOffset = DeltaRotation.Yaw;
 	}
 }
 

@@ -6,6 +6,7 @@
 #include "Animation/AnimInstance.h"
 #include "MyAnimInstance.generated.h"
 
+
 /**
  * 
  */
@@ -25,9 +26,15 @@ private:
 	UPROPERTY(Category = "Ani", EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
 	bool IsFalling;
 
+private: //Ãß°¡
+	UPROPERTY(Category = "Ani", EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	float YawOffset;
+	UPROPERTY(Category = "Ani", EditAnywhere, BlueprintReadOnly, meta = (AllowPrivateAccess = true))
+	FRotator AimRotation;
+
 public:
 	UPROPERTY(VisibleAnywhere)
-	class AMyCharacter* Character;
+	class AMyPlayer* Character;
 	UPROPERTY(VisibleAnywhere)
 	class UCharacterMovementComponent* CharacterMovement;
 	UPROPERTY(VisibleAnywhere)

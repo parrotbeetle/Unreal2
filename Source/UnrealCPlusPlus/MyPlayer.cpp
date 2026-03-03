@@ -31,6 +31,7 @@ AMyPlayer::AMyPlayer()
 	SpringArm->TargetArmLength = 400.f;
 	SpringArm->SetRelativeLocationAndRotation(FVector(0.f, 0.f, 100.f), FRotator(-25.f, 0.f, 0.f));
 	SpringArm->bUsePawnControlRotation = true;
+	SpringArm->SocketOffset = FVector(0.f, 120.f, 0.f);
 
 	static ConstructorHelpers::FClassFinder<UMyAnimInstance> AI(TEXT("/Script/Engine.AnimBlueprint'/Game/Animation/ABP_Player.ABP_Player_C'"));
 
