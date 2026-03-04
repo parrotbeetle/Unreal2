@@ -7,8 +7,9 @@
 #include "MyAnimInstance.h"		   
 #include "EnhancedInputComponent.h"
 #include "EnhancedInputSubsystems.h"
+#include "Arrow.h"
 
-// Sets default values
+
 AMyPlayer::AMyPlayer()
 {
  	// Set this character to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
@@ -123,6 +124,16 @@ void AMyPlayer::Fire(const FInputActionValue& Value)
 	if (IsValid(AnimInstance))
 	{
 		AnimInstance->PlayAttackMontage();
+
+		FTransform SocketTransform = GetMesh()->GetSocketTransform(FName("ArrowSocket"));
+		FVector SocketLocation = SocketTransform.GetLocation();
+		FRotator SocketRotation = SocketTransform.GetRotation().Rotator();
+
+		FActorSpawnParameters Params;
+		Params.Owner = this;
+
+		auto MyArrow = GetWorld()->SpawnActor<AArrow>(SocketLocation, SocketRotation, Params);
+
 	}
 
 }
