@@ -4,6 +4,8 @@
 #include "Arrow.h"
 #include "Components/BoxComponent.h"
 #include "GameFramework/ProjectileMovementComponent.h"
+#include "Particles/ParticleSystem.h" // 파티클
+#include "Kismet/GameplayStatics.h"	  //Spawn
 
 // Sets default values
 AArrow::AArrow()
@@ -48,6 +50,12 @@ AArrow::AArrow()
 	ProjectileMovement->InitialSpeed = 3000.f;
 	ProjectileMovement->MaxSpeed = 3000.f;
 	ProjectileMovement->bRotationFollowsVelocity = true;
+
+	static ConstructorHelpers::FObjectFinder<UParticleSystem> PS(TEXT("/Game/ParagonSparrow/FX/Particles/Sparrow/Abilities/Primary/FX/P_Sparrow_HitHero.P_Sparrow_HitHero"));
+	if (PS.Succeeded())
+	{
+		HitParticle = PS.Object;
+	}
 }
 
 void AArrow::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherActor, UPrimitiveComponent* OtherComp, int32 OtherBodyIndex, bool bFromSweep, const FHitResult& SweepResult)
@@ -60,4 +68,11 @@ void AArrow::OnOverlapBegin(UPrimitiveComponent* OverlappedComp, AActor* OtherAc
 
 	//충돌처리 안되게
 	CollisionBox->SetCollisionEnabled(ECollisionEnabled::NoCollision);
+
+	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), HitParticle, CollisionBox->GetComponentLocation(), FRotator::ZeroRotator, true);
+
+	UGameplayStatics::ApplyDamage(OtherActor, 10.f, ProjectileMovement->GetOwner()->GetInstigatorController(), nullptr, NULL);
+
+	FTimerHandle TimerHandler;
+	GetWorld()->GetTimerManager().SetTimer(TimerHandler, [&]() {Destroy(); }, 3.f, false);
 }

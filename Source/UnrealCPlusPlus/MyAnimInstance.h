@@ -48,6 +48,6 @@ public:
 	void PlayAttackMontage();
 public:
 	UFUNCTION()
-	void AnimNotify_Hit();
+	void AnimNotify_Shoot();
 	
 };

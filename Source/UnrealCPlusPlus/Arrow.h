@@ -20,6 +20,8 @@ private:
 	UPROPERTY(VisibleAnywhere)
 	class UProjectileMovementComponent* ProjectileMovement;
 
+	UPROPERTY(VisibleAnywhere)
+	class UParticleSystem* HitParticle;
 public:	
 	// Sets default values for this actor's properties
 	AArrow();
