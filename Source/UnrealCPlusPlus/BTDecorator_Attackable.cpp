@@ -1,9 +1,6 @@
-// Fill out your copyright notice in the Description page of Project Settings.
-
-
 #include "BTDecorator_Attackable.h"
 #include "EnemyAIController.h"
-#include "MyCharacter.h"
+#include "MyPlayer.h"
 #include "BehaviorTree/BlackboardComponent.h"
 
 UBTDecorator_Attackable::UBTDecorator_Attackable()
@@ -19,7 +16,7 @@ bool UBTDecorator_Attackable::CalculateRawConditionValue(UBehaviorTreeComponent&
 	if (Pawn == nullptr)
 		return false;
 
-	auto Target = Cast<AMyCharacter>(OwnerComp.GetBlackboardComponent()->GetValueAsObject("Target"));
+	auto Target = Cast<AMyPlayer>(OwnerComp.GetBlackboardComponent()->GetValueAsObject("Target"));
 	if (Target == nullptr)
 		return false;
 

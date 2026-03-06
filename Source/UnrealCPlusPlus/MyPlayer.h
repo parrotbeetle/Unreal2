@@ -17,9 +17,20 @@ private:
 	class USpringArmComponent* SpringArm;
 	UPROPERTY(VisibleAnywhere)
 	class UCameraComponent* Camera;
+
+private:
+	UPROPERTY(VisibleAnywhere)
+	FVector SocketLocation;
+	UPROPERTY(VisibleAnywhere)
+	FRotator SocketRotation;
+
 private:
 	UPROPERTY(VisibleAnywhere)
 	class UMyAnimInstance* AnimInstance;
+	UPROPERTY(VisibleAnywhere)
+	class UWidgetComponent* HpBar;
+	UPROPERTY(VisibleAnywhere)
+	class UHPActorComponent* HPActorComponent;
 
 
 	UPROPERTY(EditAnywhere, BlueprintReadOnly, Category = Input, meta = (AllowPrivateAccess = true))
@@ -53,4 +64,8 @@ public:
 	void Fire(const FInputActionValue& Value);
 	
 	void PlayerAttack();
+
+public:
+	virtual float TakeDamage(float Damage, struct FDamageEvent const& DamageEvent, AController* EventInstigator, AActor* DamageCauser) override;
+
 };

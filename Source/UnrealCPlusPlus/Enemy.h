@@ -44,6 +44,7 @@ public:
 
 public:
 	void EnemyAttack();
+	void EnemyHit();
 public:
 	UFUNCTION()
 	void OnAttackMontageEnded(UAnimMontage* Montage, bool bInterupted);

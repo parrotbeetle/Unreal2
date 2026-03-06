@@ -21,10 +21,10 @@ void UEnemyAnimInstance::NativeBeginPlay()
 	auto Pawn = TryGetPawnOwner();
 	if (IsValid(Pawn))
 	{
-		ACharacter* MyCharacter = Cast<ACharacter>(Pawn);
-		if (MyCharacter)
+		Enemy = Cast<AEnemy>(Pawn);
+		if (Enemy)
 		{
-			CharacterMovement = MyCharacter->GetCharacterMovement();
+			CharacterMovement = Enemy->GetCharacterMovement();
 		}
 	}
 }
@@ -53,4 +53,9 @@ void UEnemyAnimInstance::PlayAttackMontage()
 			Montage_Play(AttackMontage);
 		}
 	}
+}
+
+void UEnemyAnimInstance::AnimNotify_Hit()
+{
+	Enemy->EnemyHit();
 }

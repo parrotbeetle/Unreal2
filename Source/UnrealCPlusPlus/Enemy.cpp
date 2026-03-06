@@ -93,6 +93,55 @@ void AEnemy::EnemyAttack()
 	}
 }
 
+void AEnemy::EnemyHit()
+{
+	FHitResult HitResult;
+	FCollisionQueryParams Params(NAME_None, false, this);
+
+	float AttackRange = 200.f;
+	float AttackRadius = 40.f;
+	float AttackHalfHeight = 90.f;
+	FVector StartPos = GetActorLocation();
+	FVector EndPos = GetActorLocation() + GetActorForwardVector() * AttackRange;
+
+
+	bool Result = GetWorld()->SweepSingleByChannel
+	(
+		OUT HitResult,
+		StartPos,
+		EndPos,
+		FQuat::Identity,
+		ECC_GameTraceChannel1,
+		FCollisionShape::MakeCapsule(AttackRadius, AttackHalfHeight),
+		Params
+	);
+
+	FVector Vec = GetActorForwardVector() * AttackRange;
+	FVector Center = StartPos + Vec * 0.5f;
+
+	FQuat AttackRotation = FRotationMatrix::MakeFromZ(GetActorForwardVector()).ToQuat();
+	FColor DebugColor = Result ? FColor::Green : FColor::Red;
+
+	DrawDebugCapsule
+	(
+		GetWorld(),
+		Center,
+		AttackHalfHeight,
+		AttackRadius,
+		AttackRotation,
+		DebugColor,
+		false,
+		2.0f
+
+
+	);
+
+	if (Result && HitResult.GetActor())
+	{
+		UE_LOG(LogTemp, Log, TEXT("Hit : %s"), *HitResult.GetActor()->GetName());
+	}
+}
+
 void AEnemy::OnAttackMontageEnded(UAnimMontage* Montage, bool bInterupted)
 {
 	isAttacking = false;
