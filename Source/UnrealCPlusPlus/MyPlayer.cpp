@@ -35,7 +35,7 @@ AMyPlayer::AMyPlayer()
 	SpringArm->TargetArmLength = 400.f;
 	SpringArm->SetRelativeLocationAndRotation(FVector(0.f, 0.f, 100.f), FRotator(-25.f, 0.f, 0.f));
 	SpringArm->bUsePawnControlRotation = true;
-	SpringArm->SocketOffset = FVector(0.f, 120.f, 0.f);
+	SpringArm->SocketOffset = FVector(0.f, 120.f, -30.f);
 
 	static ConstructorHelpers::FClassFinder<UMyAnimInstance> AI(TEXT("/Script/Engine.AnimBlueprint'/Game/Animation/ABP_Player.ABP_Player_C'"));
 
@@ -168,9 +168,9 @@ void AMyPlayer::Fire(const FInputActionValue& Value)
 		if (Result)
 			TargetLocation = HitResult.ImpactPoint;
 
-		FColor Color = Result ? FColor::Green : FColor::Red;
+		/*FColor Color = Result ? FColor::Green : FColor::Red;
 
-		DrawDebugLine(GetWorld(), AimLocation, TargetLocation, Color, true);
+		DrawDebugLine(GetWorld(), AimLocation, TargetLocation, Color, true);*/
 
 		FTransform SocketTransform = GetMesh()->GetSocketTransform(FName("ArrowSocket"));
 		SocketLocation = SocketTransform.GetLocation();
